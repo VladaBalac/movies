@@ -1,0 +1,15 @@
+<div class="row">
+	<div class="col-2">
+	</div>
+	<div class="col-6">
+		<app-pagination [pageNumber]="params.page" [pageSize]="params.pageSize" [movieNumber]="count" (javiStranu)="refres($event)"></app-pagination>
+	</div>
+	<div class="col-4">
+		<app-sort-movie (javiSort)="refres($event)"></app-sort-movie>
+	</div>
+</div>
+<div class="row">
+	<div class="col-12">
+		<app-movie [movie]="movies"></app-movie>
+	</div>
+</div>

@@ -1,0 +1,13 @@
+<div>
+	<form>
+		<label for="sort">Sortirati po:</label>
+		<select id="sort" name="sort" [(ngModel)]="sort" (change)="promenaSorta()">
+			<option value="rating">Ocena</option>
+			<option value="year">Godina</option> 
+		</select>
+    <button (click)="promeniSortDirection()">
+      <span *ngIf="sortDirection == 'asc'">&uarr;</span>
+      <span *ngIf="sortDirection == 'desc'">&darr;</span>
+    </button>
+	</form>
+</div>

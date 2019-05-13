@@ -1,0 +1,23 @@
+<div class="movies bg-light" *ngFor="let i of movie">
+	<div class="row">
+		<div class="col-12">
+			<a class="link" [routerLink]="[i._id]" href="#">{{i.name}}</a> <div class="year">({{i.year}})</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			{{i.description}}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-11">
+			{{i.rating}}
+		</div>
+		<div class="col-1">
+			{{i.duration}} mins.
+			<br>
+		</div>
+
+	</div>
+</div>
+
