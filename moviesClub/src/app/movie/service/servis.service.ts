@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpParams, HttpClient } from '@angular/common/http';
 
+// import 'rxjs/add/operator/map';
+
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -9,6 +11,7 @@ import { MovieList } from '../model/movie-list';
 import { Genre } from '../model/genre';
 
 	const url = 'http://localhost:3000/api/movies';
+	const url2 ='http://localhost:3000/api/genres';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +35,18 @@ export class ServisService {
   	}
   	return this.http.get(url, queryParams).pipe(map(res =>  new MovieList(res)));
 	}
+
+	getMovie(id :number):Observable<Movie>{
+		return this.http.get(url + "/" + id).pipe(map(res => new Movie(res)));
+	}
+
+	getGeners(){
+		return this.http.get<Genre[]>(url2).pipe(map(res => {
+		 let returnValue = new Array<Genre>();
+		 for(var i = 0; i < res.length; i++){(gen => { returnValue.push( new Genre(res))})}
+		 return returnValue}));
+	}
+
 
 
 }
