@@ -1,4 +1,4 @@
-<form [formGroup]="formMovie" (submit)="potvrdi()">
+<form [formGroup]="formMovie" (submit)="comfirm()">
 	<div class="form-group row">
 		<label for="name" class="col-sm-2">Name:</label>
 		<input type="text" id="name" class="form-control col-sm-6" formControlName="name">
@@ -28,5 +28,22 @@
 	<select id="genre" class="form-control  col-sm-4" formControlName="genre">
 		<option *ngFor="let i of genres" [ngValue]="i.name">{{i.name}}</option>
 	</select>
+	    <div class="col-sm-2 text-right">
+      <a class="btn btn-primary" (click)="openGenreMenu()">+</a>
+    </div>
 </div>
+
+  <div class="form-group row col-sm-12">
+    <button type="submit" class="btn btn-primary" [disabled]="!formMovie.valid">Save</button>
+  </div>
+</form>
+
+<form *ngIf="genreMenu">
+	<div class="form-group row">
+		<label for="newGenre" class="col-sm-2">Enter new genre:</label>
+		<input type="text" name="newGenre" class="form-control col-sm-4" id="newGenre" [(ngModel)]="newGenre.name">
+		<div class="col-sm-2">
+			<button class="btn btn-primary" (click)="saveGenre()">Save Genre</button>
+		</div>
+	</div>
 </form>

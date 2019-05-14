@@ -18,8 +18,9 @@ export class MovieFormComponent implements OnInit {
 	movie :Movie;
 	formMovie :FormGroup;
 	id: number;
-	genres :Genre[];
+	genres : Genre[];
 	newGenre :Genre;
+	genreMenu :boolean = false;
 
   constructor(private fb :FormBuilder, private r :Router, private route :ActivatedRoute, private servis :ServisService) {
   	this.makeForm();
@@ -39,6 +40,18 @@ export class MovieFormComponent implements OnInit {
   }
 
   ngOnInit() {
+  	// let id: string = this.route.snapshot.paramMap.get('id');
+  	// if(id){
+  	// 	this.servis.getMovie(Number(id)).subscribe(res => {
+  	// 		this.movie = res;
+  	// 		this.formMovie.patchValue(this.movie);
+  	// 		this.id = res._id;
+  	// 		console.log(this.id);
+  	// 	})
+  	// }
+  	// this.servis.getGeners().subscribe(res => this.genres = res);
+  	// console.log(this.genres);
+
   	let id: string = this.route.snapshot.paramMap.get('id');
   	if(id){
   		this.servis.getMovie(Number(id)).subscribe(res => {
@@ -48,14 +61,40 @@ export class MovieFormComponent implements OnInit {
   			console.log(this.id);
   		})
   	}
-  	this.servis.getGeners().subscribe(res => this.genres = res);
+  	this.servis.getGenres().subscribe(res => this.genres = res.results);
   	console.log(this.genres);
+  }
 
+  comfirm(){
+  	let submitMovie :Movie = new Movie(this.formMovie.value);
+  	if(this.movie && this.movie._id){
+  		submitMovie._id = this.movie._id;
+  		this.servis.editMovie(submitMovie).subscribe(movie => {
+  			this.formMovie.reset();
+  			this.r.navigate(['movies']);
+  		})
+  	}else{
+  		this.servis.addMovie(submitMovie).subscribe(movie => {
+  			this.formMovie.reset();
+  			this.r.navigate(['movies']);
+  		})
+  	}
+  }
+
+  saveGenre(){
+  	this.servis.addGenre(this.newGenre).subscribe(res => {
+  		this.genres.push(res);
+  		this.formMovie.patchValue({"genre": res.name});
+  		this.genreMenu = false;
+  	})
 
   }
 
-  potvrdi(){
-
+  openGenreMenu(){
+  	this.genreMenu = !this.genreMenu;
+  	if(this.genreMenu){
+  		this.newGenre = new Genre();
+  	}
   }
 
 }
